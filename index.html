@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F5F0" />
+  <title>РемУслуги — Мира, 33 | Казань</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #F7F5F0;
+      --surface: rgba(255, 255, 255, 0.88);
+      --surface-solid: #FFFFFF;
+      --border: rgba(28, 25, 23, 0.07);
+      --border-hover: rgba(255, 90, 31, 0.32);
+      --orange: #FF5A1F;
+      --orange-soft: #FFF1EB;
+      --green: #16A34A;
+      --green-soft: #ECFDF3;
+      --text-main: #1C1917;
+      --text-muted: #6B6660;
+      --text-dim: #9C968F;
+      --shadow-sm: 0 4px 14px rgba(28, 25, 23, 0.04);
+      --shadow-md: 0 12px 32px rgba(28, 25, 23, 0.065);
+      --shadow-hover: 0 16px 38px rgba(255, 90, 31, 0.12);
+      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+      --radius-xl: 26px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Segoe UI', Roboto, sans-serif;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .bg-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      will-change: transform;
+    }
+
+    .orb-1 {
+      width: 360px;
+      height: 360px;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(255, 115, 55, 0.22) 0%, transparent 70%);
+      animation: drift1 16s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -80px;
+      right: -70px;
+      background: radial-gradient(circle, rgba(255, 196, 107, 0.24) 0%, transparent 72%);
+      animation: drift2 20s ease-in-out infinite alternate;
+    }
+
+    .orb-3 {
+      width: 240px;
+      height: 240px;
+      bottom: 22%;
+      left: -90px;
+      background: radial-gradient(circle, rgba(134, 239, 172, 0.16) 0%, transparent 72%);
+      animation: drift2 18s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift1 {
+      0% { transform: translate(-54%, 0) scale(1); }
+      100% { transform: translate(-44%, 24px) scale(1.08); }
+    }
+
+    @keyframes drift2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-24px, -20px) scale(1.1); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(26px, env(safe-area-inset-top)) 18px max(26px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 20px;
+      border-radius: var(--radius-xl);
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 16px;
+      opacity: 0;
+      transform: translateY(14px) scale(0.96);
+      animation: popIn 0.85s var(--ease-spring) 0.08s forwards;
+    }
+
+    .logo-mark {
+      width: 92px;
+      height: 58px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-mark svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .brand-right {
+      text-align: left;
+    }
+
+    .brand-title {
+      font-family: 'Nunito', 'Manrope', sans-serif;
+      font-weight: 900;
+      font-size: 17px;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+      color: #1C1917;
+      text-transform: uppercase;
+    }
+
+    @keyframes popIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .greeting {
+      margin-bottom: 14px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.8s var(--ease-spring) 0.18s forwards;
+    }
+
+    .greeting h1 {
+      font-family: 'Nunito', 'Manrope', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+    }
+
+    .greeting p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.8s var(--ease-spring) 0.28s forwards;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+      animation: pulseDot 2.8s ease-in-out infinite;
+    }
+
+    .status-dot.closed {
+      background: #A8A29E;
+      box-shadow: none;
+      animation: none;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.82); opacity: 0.65; }
+    }
+
+    .marquee {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 10px 0;
+      margin-bottom: 20px;
+      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      opacity: 0;
+      animation: fadeIn 0.9s ease 0.34s forwards;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: scrollLeft 34s linear infinite;
+    }
+
+    .marquee-item {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+      padding-right: 14px;
+    }
+
+    .marquee-dot {
+      color: var(--orange);
+      margin: 0 8px;
+    }
+
+    @keyframes scrollLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin: 0 0 10px 6px;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 0.75s var(--ease-spring) 0.4s forwards;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .action-card {
+      --mx: 50%;
+      --my: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 19px 18px;
+      border-radius: var(--radius-lg);
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      text-decoration: none;
+      color: var(--text-main);
+      overflow: hidden;
+      transition: transform 0.32s var(--ease-spring), border-color 0.28s ease, box-shadow 0.32s ease;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.85s var(--ease-spring) forwards;
+    }
+
+    .action-card:nth-child(1) { animation-delay: 0.46s; }
+    .action-card:nth-child(2) { animation-delay: 0.56s; }
+
+    .action-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(240px circle at var(--mx) var(--my), rgba(255, 90, 31, 0.08), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .action-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -130%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.7) 50%, transparent 80%);
+      transform: skewX(-18deg);
+      animation: sheenSweep 9s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .action-card:nth-child(2)::after {
+      animation-delay: 2.5s;
+    }
+
+    @keyframes sheenSweep {
+      0%, 80% { left: -130%; }
+      100% { left: 160%; }
+    }
+
+    .action-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+    }
+
+    .action-card:hover::before {
+      opacity: 1;
+    }
+
+    .action-card:active {
+      transform: scale(0.975);
+    }
+
+    .card-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s var(--ease-spring);
+    }
+
+    .card-icon.yandex {
+      background: var(--orange-soft);
+      color: var(--orange);
+    }
+
+    .card-icon.twogis {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .action-card:hover .card-icon {
+      transform: scale(1.07) rotate(-3deg);
+    }
+
+    .card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .card-sub {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.38;
+    }
+
+    .card-arrow {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #F5F3EE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: transform 0.32s var(--ease-spring), background 0.25s ease, color 0.25s ease;
+    }
+
+    .action-card:hover .card-arrow {
+      transform: translate(2px, -2px);
+      background: var(--orange);
+      color: #FFFFFF;
+    }
+
+    .thanks-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 16px;
+      border-radius: 18px;
+      background: rgba(255, 241, 235, 0.75);
+      border: 1px solid rgba(255, 90, 31, 0.14);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.8s var(--ease-spring) 0.64s forwards;
+    }
+
+    .stars-row {
+      display: inline-flex;
+      gap: 2px;
+      color: #F59E0B;
+      flex-shrink: 0;
+    }
+
+    .thanks-text {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #7C2D12;
+      line-height: 1.35;
+    }
+
+    .share-wrap {
+      margin-top: auto;
+      padding-top: 4px;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.8s var(--ease-spring) 0.72s forwards;
+    }
+
+    .share-btn {
+      width: 100%;
+      appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 15px 16px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.25s var(--ease-spring), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .share-btn:hover {
+      background: var(--surface-solid);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .share-btn:active {
+      transform: scale(0.975);
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: fadeIn 1s ease 0.82s forwards;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      transform: translate(-50%, 100px);
+      background: #1C1917;
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(28, 25, 23, 0.25);
+      transition: transform 0.45s var(--ease-spring), opacity 0.35s ease;
+      opacity: 0;
+      z-index: 50;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+  </div>
+
+  <main class="wrap">
+    <header class="hero">
+      <div class="brand-card">
+        <div class="logo-mark" aria-label="РемУслуги">
+          <svg viewBox="0 0 122 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 19V16C22 10.4772 26.4772 6 32 6H104C109.523 6 114 10.4772 114 16V60C114 65.5228 109.523 70 104 70H32C26.4772 70 22 65.5228 22 60V57"
+                  stroke="#1C1917" stroke-width="5.4" stroke-linecap="round"/>
+            <text x="2" y="34" fill="#FF5A1F" font-family="Nunito, Manrope, Arial, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.4">Рем</text>
+            <text x="2" y="55" fill="#FF5A1F" font-family="Nunito, Manrope, Arial, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.4">Услуги</text>
+          </svg>
+        </div>
+        <div class="brand-right">
+          <div class="brand-title">РЕМОНТ<br>ТЕХНИКИ</div>
+        </div>
+      </div>
+
+      <div class="greeting">
+        <h1>Спасибо, что зашли к нам!</h1>
+        <p>Если всё понравилось — будем очень благодарны за пару тёплых слов о нашей работе</p>
+      </div>
+
+      <div class="meta-row">
+        <div class="pill">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Открыто · до 19:00</span>
+        </div>
+        <div class="pill">
+          <span id="addressBadge">Дербышки · ул. Мира, 33</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-item">Ремонт<span class="marquee-dot">●</span>Продажа<span class="marquee-dot">●</span>Защита<span class="marquee-dot">●</span>Обслуживание<span class="marquee-dot">●</span></span>
+        <span class="marquee-item">Ремонт<span class="marquee-dot">●</span>Продажа<span class="marquee-dot">●</span>Защита<span class="marquee-dot">●</span>Обслуживание<span class="marquee-dot">●</span></span>
+        <span class="marquee-item">Ремонт<span class="marquee-dot">●</span>Продажа<span class="marquee-dot">●</span>Защита<span class="marquee-dot">●</span>Обслуживание<span class="marquee-dot">●</span></span>
+        <span class="marquee-item">Ремонт<span class="marquee-dot">●</span>Продажа<span class="marquee-dot">●</span>Защита<span class="marquee-dot">●</span>Обслуживание<span class="marquee-dot">●</span></span>
+      </div>
+    </div>
+
+    <div class="section-label">Оставить отзыв</div>
+    <section class="cards">
+      <a id="yandexBtn" class="action-card" href="#" target="_blank" rel="noopener">
+        <div class="card-icon yandex">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.4l2.92 5.91 6.52.95-4.72 4.6 1.11 6.5L12 17.29l-5.83 3.07 1.11-6.5-4.72-4.6 6.52-.95L12 2.4z"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Отзыв на Яндекс.Картах</div>
+          <div class="card-sub">Займёт 30 секунд — поможет другим найти нас</div>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M7 7h10v10"/>
+          </svg>
+        </div>
+      </a>
+
+      <a id="twogisBtn" class="action-card" href="#" target="_blank" rel="noopener">
+        <div class="card-icon twogis">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Отзыв в 2ГИС</div>
+          <div class="card-sub">Оцените скорость и качество ремонта</div>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M7 7h10v10"/>
+          </svg>
+        </div>
+      </a>
+    </section>
+
+    <div class="thanks-banner">
+      <div class="stars-row" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="thanks-text">Каждый ваш отзыв делает наш сервис лучше</div>
+    </div>
+
+    <div class="share-wrap">
+      <button id="shareBtn" class="share-btn" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <span>Поделиться с другом</span>
+      </button>
+    </div>
+
+    <footer class="footer">
+      РемУслуги · Казань · с заботой о вашей технике
+    </footer>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const BRANCH = {
+      address: "Дербышки · ул. Мира, 33",
+      openHour: 9,
+      closeHour: 19,
+      yandexReviewUrl: "https://yandex.ru/maps/org/remuslugi/107644445479/reviews/",
+      twogisReviewUrl: "https://2gis.ru/kazan/search/%D0%A0%D0%B5%D0%BC%D0%A3%D1%81%D0%BB%D1%83%D0%B3%D0%B8%20%D0%9C%D0%B8%D1%80%D0%B0%2033/firm/70000001038812559/49.222157%2C55.863551/tab/reviews"
+    };
+
+    document.getElementById("yandexBtn").href = BRANCH.yandexReviewUrl;
+    document.getElementById("twogisBtn").href = BRANCH.twogisReviewUrl;
+    document.getElementById("addressBadge").textContent = BRANCH.address;
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    (function updateStatus() {
+      const now = new Date();
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+      const kazan = new Date(utcMs + 3 * 3600000);
+      const h = kazan.getHours();
+      const dot = document.getElementById("statusDot");
+      const txt = document.getElementById("statusText");
+
+      if (h >= BRANCH.openHour && h < BRANCH.closeHour) {
+        dot.classList.remove("closed");
+        txt.textContent = `Открыто · до ${pad(BRANCH.closeHour)}:00`;
+      } else {
+        dot.classList.add("closed");
+        txt.textContent = `Откроемся в ${pad(BRANCH.openHour)}:00`;
+      }
+    })();
+
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove("show"), 2300);
+    }
+
+    document.querySelectorAll(".action-card").forEach(card => {
+      card.addEventListener("pointermove", (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+        card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      });
+    });
+
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+      const shareData = {
+        title: "РемУслуги — Ремонт техники",
+        text: `Рекомендую сервисный центр РемУслуги (${BRANCH.address})`,
+        url: window.location.href
+      };
+      if (navigator.share) {
+        try { await navigator.share(shareData); } catch (_) {}
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast("Ссылка скопирована — можно отправить другу");
+      } else {
+        showToast("Скопируйте ссылку из адресной строки");
+      }
+    });
+  </script>
+</body>
+</html>
